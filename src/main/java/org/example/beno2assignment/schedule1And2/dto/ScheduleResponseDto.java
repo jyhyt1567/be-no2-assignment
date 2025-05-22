@@ -1,4 +1,4 @@
-package org.example.beno2assignment.schedule1.dto;
+package org.example.beno2assignment.schedule1And2.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
