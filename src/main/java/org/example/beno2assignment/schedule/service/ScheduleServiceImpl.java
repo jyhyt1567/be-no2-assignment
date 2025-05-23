@@ -1,10 +1,11 @@
-package org.example.beno2assignment.schedule1And2.service;
+package org.example.beno2assignment.schedule.service;
 
-import org.example.beno2assignment.schedule1And2.dto.*;
-import org.example.beno2assignment.schedule1And2.entity.Schedule;
-import org.example.beno2assignment.schedule1And2.repository.ScheduleRepository;
+import org.example.beno2assignment.schedule.dto.*;
+import org.example.beno2assignment.schedule.entity.Schedule;
+import org.example.beno2assignment.schedule.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class ScheduleServiceImpl implements ScheduleService{
         return scheduleRepository.findScheduleByIdorElseThrow(id).toResponseDto();
     }
 
+    @Transactional
     @Override
     public ScheduleResponseDto updateSchedule(Long id, UpdateScheduleRequestDto requestDto) {
 
@@ -64,6 +66,7 @@ public class ScheduleServiceImpl implements ScheduleService{
     public void deleteSchedule(Long id, DeleteScheduleRequestDto requestDto) {
         String password = scheduleRepository.findScheduleByIdorElseThrow(id).getPassword();
         String inputPassword = requestDto.getPassword();
+
         if(!password.equals(inputPassword)){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 틀렸습니다.");
         }

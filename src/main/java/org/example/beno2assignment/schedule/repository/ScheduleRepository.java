@@ -1,8 +1,8 @@
-package org.example.beno2assignment.schedule1And2.repository;
+package org.example.beno2assignment.schedule.repository;
 
-import org.example.beno2assignment.schedule1And2.dto.ReadScheduleRequestDto;
-import org.example.beno2assignment.schedule1And2.dto.UpdateScheduleRequestDto;
-import org.example.beno2assignment.schedule1And2.entity.Schedule;
+import org.example.beno2assignment.schedule.dto.ReadScheduleRequestDto;
+import org.example.beno2assignment.schedule.dto.UpdateScheduleRequestDto;
+import org.example.beno2assignment.schedule.entity.Schedule;
 
 import java.util.List;
 

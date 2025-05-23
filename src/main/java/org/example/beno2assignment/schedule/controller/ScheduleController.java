@@ -1,7 +1,7 @@
-package org.example.beno2assignment.schedule1And2.controller;
+package org.example.beno2assignment.schedule.controller;
 
-import org.example.beno2assignment.schedule1And2.dto.*;
-import org.example.beno2assignment.schedule1And2.service.ScheduleService;
+import org.example.beno2assignment.schedule.dto.*;
+import org.example.beno2assignment.schedule.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,8 +1,8 @@
-package org.example.beno2assignment.schedule1And2.entity;
+package org.example.beno2assignment.schedule.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.example.beno2assignment.schedule1And2.dto.ScheduleResponseDto;
+import org.example.beno2assignment.schedule.dto.ScheduleResponseDto;
 
 import java.time.LocalDateTime;
 

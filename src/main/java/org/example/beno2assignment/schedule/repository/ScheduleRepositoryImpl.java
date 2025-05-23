@@ -1,9 +1,9 @@
-package org.example.beno2assignment.schedule1And2.repository;
+package org.example.beno2assignment.schedule.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.beno2assignment.schedule1And2.dto.ReadScheduleRequestDto;
-import org.example.beno2assignment.schedule1And2.dto.UpdateScheduleRequestDto;
-import org.example.beno2assignment.schedule1And2.entity.Schedule;
+import org.example.beno2assignment.schedule.dto.ReadScheduleRequestDto;
+import org.example.beno2assignment.schedule.dto.UpdateScheduleRequestDto;
+import org.example.beno2assignment.schedule.entity.Schedule;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

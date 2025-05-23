@@ -1,6 +1,6 @@
-package org.example.beno2assignment.schedule1And2.service;
+package org.example.beno2assignment.schedule.service;
 
-import org.example.beno2assignment.schedule1And2.dto.*;
+import org.example.beno2assignment.schedule.dto.*;
 
 import java.util.List;
 
