@@ -10,4 +10,5 @@ import java.time.LocalDate;
 public class ReadScheduleRequestDto {
     private String name;
     private LocalDate modifiedAt;
+    private Long uid;
 }

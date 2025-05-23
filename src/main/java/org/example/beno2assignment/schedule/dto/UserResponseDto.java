@@ -7,11 +7,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class ScheduleResponseDto {
-    private Long id;
-    private String todo;
+public class UserResponseDto {
+    private Long uid;
     private String name;
+    private String email;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
-    private Long uid;
 }

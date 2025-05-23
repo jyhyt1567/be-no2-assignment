@@ -25,8 +25,9 @@ public class ScheduleController {
 
     @GetMapping
     public ResponseEntity<List<ScheduleResponseDto>> findSchedulesByConditions(@RequestParam(required = false) String name,
-                                                                               @RequestParam(required = false) LocalDate modifiedAt){
-        ReadScheduleRequestDto requestDto = new ReadScheduleRequestDto(name, modifiedAt);
+                                                                               @RequestParam(required = false) LocalDate modifiedAt,
+                                                                               @RequestParam(required = false) Long uid){
+        ReadScheduleRequestDto requestDto = new ReadScheduleRequestDto(name, modifiedAt, uid);
         return new ResponseEntity<>(scheduleService.findSchedulesByConditions(requestDto), HttpStatus.OK);
     }
 

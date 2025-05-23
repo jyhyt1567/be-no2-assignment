@@ -15,13 +15,15 @@ public class Schedule {
     private String password;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
+    private Long uid;
 
-    public Schedule(String name, String todo, String password) {
+    public Schedule(String name, String todo, String password, Long uid) {
         this.name = name;
         this.todo = todo;
         this.password = password;
+        this.uid = uid;
     }
     public ScheduleResponseDto toResponseDto(){
-        return new ScheduleResponseDto(this.getId(), this.getName(), this.getTodo(), this.getCreateAt(), this.getModifiedAt());
+        return new ScheduleResponseDto(this.getId(), this.getName(), this.getTodo(), this.getCreateAt(), this.getModifiedAt(), this.getUid());
     }
 }

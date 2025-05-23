@@ -44,10 +44,11 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         parameters.put("password",schedule.getPassword());
         parameters.put("createAt", currentTime);
         parameters.put("modifiedAt", currentTime);
+        parameters.put("uid", schedule.getUid());
 
         Number id = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new Schedule(id.longValue(), schedule.getTodo(), schedule.getName(),schedule.getPassword(), currentTime, currentTime);
+        return new Schedule(id.longValue(), schedule.getTodo(), schedule.getName(),schedule.getPassword(), currentTime, currentTime, schedule.getUid());
     }
 
     @Override
@@ -64,6 +65,15 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
             sql.append(" and modifiedAt between ? and ?");
             conds.add(requestDto.getModifiedAt().atStartOfDay());
             conds.add(requestDto.getModifiedAt().atTime(LocalTime.MAX));
+        }
+        if(requestDto.getUid() != null){
+            if(requestDto.getUid() == 0){
+                sql.append(" and uid is null");
+            }
+            else{
+                sql.append(" and uid = ?");
+                conds.add(requestDto.getUid());
+            }
         }
 
         sql.append(" order by modifiedAt desc");
@@ -129,7 +139,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
                         rs.getString("name"),
                         rs.getString("password"),
                         rs.getObject("createAt", LocalDateTime.class),
-                        rs.getObject("modifiedAt", LocalDateTime.class)
+                        rs.getObject("modifiedAt", LocalDateTime.class),
+                        rs.getObject("uid", Long.class)
                 );
             }
         };
