@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,6 +58,11 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     public List<ScheduleResponseDto> findSchedulesByConditions(ReadScheduleRequestDto requestDto) {
+
+        if(requestDto.getP() < 1 || requestDto.getPSize() < 1){
+            return new ArrayList<ScheduleResponseDto>();
+        }
+
         return scheduleRepository.findSchedulesByConditions(requestDto)
                 .stream()
                 .map(schedule->schedule.toResponseDto())

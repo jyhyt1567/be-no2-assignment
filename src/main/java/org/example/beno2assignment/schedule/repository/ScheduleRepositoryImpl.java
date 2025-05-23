@@ -78,6 +78,11 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
 
         sql.append(" order by modifiedAt desc");
 
+        sql.append(" limit ?, ?");
+
+        conds.add((requestDto.getP()-1)*requestDto.getPSize());
+        conds.add(requestDto.getPSize());
+
         return jdbcTemplate.query(sql.toString(), scheduleRowMapper(), conds.toArray());
 
     }

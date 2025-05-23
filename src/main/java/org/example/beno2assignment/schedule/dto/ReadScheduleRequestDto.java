@@ -11,4 +11,6 @@ public class ReadScheduleRequestDto {
     private String name;
     private LocalDate modifiedAt;
     private Long uid;
+    private Long p;
+    private Long pSize;
 }
