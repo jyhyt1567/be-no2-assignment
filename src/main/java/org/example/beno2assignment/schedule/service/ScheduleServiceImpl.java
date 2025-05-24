@@ -3,12 +3,12 @@ package org.example.beno2assignment.schedule.service;
 import org.example.beno2assignment.schedule.dto.*;
 import org.example.beno2assignment.schedule.entity.Schedule;
 import org.example.beno2assignment.schedule.entity.User;
+import org.example.beno2assignment.schedule.exception.CustomException;
+import org.example.beno2assignment.schedule.exception.ErrorCode;
 import org.example.beno2assignment.schedule.repository.ScheduleRepository;
 import org.example.beno2assignment.schedule.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,9 @@ public class ScheduleServiceImpl implements ScheduleService{
         Schedule schedule = null;
         Long uid = requestDto.getUid();
         if(uid == null){
-            // todo 아이디 비번 없으면 예외 쓰로우 엔티티 단에서?
+            if(requestDto.getPassword() == null){
+                throw new CustomException(ErrorCode.LACK_OF_REQUEST);
+            }
             schedule = new Schedule(requestDto.getName(), requestDto.getTodo(), requestDto.getPassword(), null);
         }
         else{
@@ -43,7 +45,7 @@ public class ScheduleServiceImpl implements ScheduleService{
             String inputPassword = requestDto.getPassword();
 
             if(!password.equals(inputPassword)){
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 틀렸습니다.");
+                throw new CustomException(ErrorCode.UNAUTHORIZED);
             }
 
             if(name == null){
@@ -82,17 +84,17 @@ public class ScheduleServiceImpl implements ScheduleService{
         String inputPassword = requestDto.getPassword();
 
         if(!password.equals(inputPassword)){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 틀렸습니다.");
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
 
         if(requestDto.getName() == null && requestDto.getTodo() == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정할 내용을 기입하시오.");
+            throw new CustomException(ErrorCode.LACK_OF_REQUEST);
         }
 
         int updatedRow = scheduleRepository.updateSchedule(id, requestDto);
 
         if (updatedRow == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "없는 데이터 수정 요청입니다.");
+            throw new CustomException(ErrorCode.NOT_FOUND);
         }
 
         return scheduleRepository.findScheduleByIdorElseThrow(id).toResponseDto();
@@ -104,13 +106,13 @@ public class ScheduleServiceImpl implements ScheduleService{
         String inputPassword = requestDto.getPassword();
 
         if(!password.equals(inputPassword)){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 틀렸습니다.");
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
 
         int deletedRow = scheduleRepository.deleteSchedule(id);
 
         if (deletedRow == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "없는 데이터 삭제 요청입니다.");
+            throw new CustomException(ErrorCode.NOT_FOUND);
         }
     }
 }
