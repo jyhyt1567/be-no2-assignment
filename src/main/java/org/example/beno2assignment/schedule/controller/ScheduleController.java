@@ -30,7 +30,9 @@ public class ScheduleController {
     @GetMapping
     public ResponseEntity<List<ScheduleResponseDto>> findSchedulesByConditions(@RequestParam(required = false) String name,
                                                                                @RequestParam(required = false) LocalDate modifiedAt,
+                                                                               //레벨 3 구현
                                                                                @RequestParam(required = false) Long uid,
+                                                                               //레벨 4 페이지네이션 구현
                                                                                @RequestParam(defaultValue = "1") Long p,
                                                                                @RequestParam(defaultValue = "5") Long pSize){
         ReadScheduleRequestDto requestDto = new ReadScheduleRequestDto(name, modifiedAt, uid, p, pSize);

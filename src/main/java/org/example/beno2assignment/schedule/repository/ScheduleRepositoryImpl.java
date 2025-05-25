@@ -69,6 +69,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
             conds.add(requestDto.getModifiedAt().atStartOfDay());
             conds.add(requestDto.getModifiedAt().atTime(LocalTime.MAX));
         }
+
+        //레벨 3 구현
         if(requestDto.getUid() != null){
             sql.append(" and uid = ?");
             conds.add(requestDto.getUid());
