@@ -1,5 +1,6 @@
 package org.example.beno2assignment.schedule.controller;
 
+import jakarta.validation.Valid;
 import org.example.beno2assignment.schedule.dto.CreateUserRequestDto;
 import org.example.beno2assignment.schedule.dto.UserResponseDto;
 import org.example.beno2assignment.schedule.service.UserService;
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> signUp(@RequestBody CreateUserRequestDto requestDto){
+    public ResponseEntity<UserResponseDto> signUp(@RequestBody @Valid CreateUserRequestDto requestDto){
         return new ResponseEntity<>(userService.signUp(requestDto), HttpStatus.CREATED);
     }
 }

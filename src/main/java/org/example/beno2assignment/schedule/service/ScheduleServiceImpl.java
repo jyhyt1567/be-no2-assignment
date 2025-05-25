@@ -30,9 +30,6 @@ public class ScheduleServiceImpl implements ScheduleService{
         Schedule schedule = null;
         Long uid = requestDto.getUid();
         if(uid == null){
-            if(requestDto.getPassword() == null){
-                throw new CustomException(ErrorCode.LACK_OF_REQUEST);
-            }
             schedule = new Schedule(requestDto.getName(), requestDto.getTodo(), requestDto.getPassword(), null);
         }
         else{

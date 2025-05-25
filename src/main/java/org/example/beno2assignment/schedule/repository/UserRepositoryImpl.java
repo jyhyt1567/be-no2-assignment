@@ -2,13 +2,13 @@ package org.example.beno2assignment.schedule.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.beno2assignment.schedule.entity.User;
-import org.springframework.http.HttpStatus;
+import org.example.beno2assignment.schedule.exception.CustomException;
+import org.example.beno2assignment.schedule.exception.ErrorCode;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -55,7 +55,7 @@ public class UserRepositoryImpl implements UserRepository{
         return res
                 .stream()
                 .findAny()
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "아이디= "+uid+"가 없습니다."));
+                .orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND));
 
     }
 

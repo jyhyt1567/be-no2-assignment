@@ -1,5 +1,6 @@
 package org.example.beno2assignment.schedule.controller;
 
+import jakarta.validation.Valid;
 import org.example.beno2assignment.schedule.dto.*;
 import org.example.beno2assignment.schedule.service.ScheduleService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class ScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody CreateScheduleRequestDto requestDto){
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody @Valid CreateScheduleRequestDto requestDto){
         return new ResponseEntity<>(scheduleService.createSchedule(requestDto), HttpStatus.CREATED);
     }
 
@@ -40,13 +41,13 @@ public class ScheduleController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id,
-                                                              @RequestBody UpdateScheduleRequestDto requestDto){
+                                                              @RequestBody @Valid UpdateScheduleRequestDto requestDto){
         return new ResponseEntity<>(scheduleService.updateSchedule(id, requestDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long id,
-                                               @RequestBody DeleteScheduleRequestDto requestDto){
+                                               @RequestBody @Valid DeleteScheduleRequestDto requestDto){
         scheduleService.deleteSchedule(id, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
