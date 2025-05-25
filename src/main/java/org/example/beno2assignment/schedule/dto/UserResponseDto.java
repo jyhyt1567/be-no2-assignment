@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+//레벨 3 구현
 @Getter
 @AllArgsConstructor
 public class UserResponseDto {

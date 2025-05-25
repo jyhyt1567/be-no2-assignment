@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//레벨 3 구현
 @Slf4j
 @Repository
 public class UserRepositoryImpl implements UserRepository{
@@ -32,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository{
     public User signUp(User user) {
 
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("user").usingGeneratedKeyColumns("uid");
+        jdbcInsert.withTableName("users").usingGeneratedKeyColumns("uid");
 
         Map<String, Object> parameters = new HashMap<>();
 
@@ -51,11 +52,11 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User findUserByUidorElseThrow(Long uid) {
-        List<User> res = jdbcTemplate.query("select * from user where uid = ?", userRowMapper(), uid);
+        List<User> res = jdbcTemplate.query("select * from users where uid = ?", userRowMapper(), uid);
         return res
                 .stream()
                 .findAny()
-                .orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND));
+                .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
 
     }
 

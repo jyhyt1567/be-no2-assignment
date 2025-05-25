@@ -6,6 +6,8 @@ import lombok.Getter;
 
 @Getter
 public class CreateUserRequestDto {
+
+    //레벨 6 null 체크 및 특정 패턴에 대한 검증 수행 구현
     @NotBlank(message = "이름을 작성해 주세요.")
     private String name;
 

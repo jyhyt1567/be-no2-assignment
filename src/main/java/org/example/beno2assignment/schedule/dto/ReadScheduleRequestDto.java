@@ -11,6 +11,8 @@ public class ReadScheduleRequestDto {
     private String name;
     private LocalDate modifiedAt;
     private Long uid;
+
+    //레벨 4 페이지네이션 구현
     private Long p;
     private Long pSize;
 }

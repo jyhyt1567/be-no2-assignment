@@ -24,40 +24,38 @@ public class ScheduleServiceImpl implements ScheduleService{
         this.userRepository = userRepository;
     }
 
+    //레벨 1 스케줄 생성 구현
     @Override
     public ScheduleResponseDto createSchedule(CreateScheduleRequestDto requestDto) {
 
         Schedule schedule = null;
         Long uid = requestDto.getUid();
-        if(uid == null){
-            schedule = new Schedule(requestDto.getName(), requestDto.getTodo(), requestDto.getPassword(), null);
+
+        User user = userRepository.findUserByUidorElseThrow(uid);
+        String password = user.getPassword();
+
+        String inputPassword = requestDto.getPassword();
+
+        if(!password.equals(inputPassword)){
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
-        else{
 
-            User user = userRepository.findUserByUidorElseThrow(uid);
+        String name = requestDto.getName();
 
-            String name = requestDto.getName();
-
-            String password = user.getPassword();
-            String inputPassword = requestDto.getPassword();
-
-            if(!password.equals(inputPassword)){
-                throw new CustomException(ErrorCode.UNAUTHORIZED);
-            }
-
-            if(name == null){
-                name = user.getName();
-            }
-
-            schedule = new Schedule(name, requestDto.getTodo(), password, uid);
-
+        if(name == null){
+            name = user.getName();
         }
+
+        schedule = new Schedule(name, requestDto.getTodo(), uid);
         return scheduleRepository.createSchedule(schedule).toResponseDto();
     }
 
+
+    //레벨 1 전체 조회 구현
     @Override
     public List<ScheduleResponseDto> findSchedulesByConditions(ReadScheduleRequestDto requestDto) {
 
+        //레벨 4 페이지네이션 구현
         if(requestDto.getP() < 1 || requestDto.getPSize() < 1){
             return new ArrayList<ScheduleResponseDto>();
         }
@@ -68,23 +66,26 @@ public class ScheduleServiceImpl implements ScheduleService{
                 .toList();
     }
 
+
+    //레벨 1 단건 조회 구현
     @Override
     public ScheduleResponseDto findScheduleById(Long id) {
         return scheduleRepository.findScheduleByIdorElseThrow(id).toResponseDto();
     }
 
+    //레벨 1 단건 수정 구현
     @Transactional
     @Override
     public ScheduleResponseDto updateSchedule(Long id, UpdateScheduleRequestDto requestDto) {
 
-        String password = scheduleRepository.findScheduleByIdorElseThrow(id).getPassword();
+        String password = scheduleRepository.findPasswordByIdorElseThrow(id);
         String inputPassword = requestDto.getPassword();
 
         if(!password.equals(inputPassword)){
             throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
 
-        if(requestDto.getName() == null && requestDto.getTodo() == null){
+        if(requestDto.getTodo() == null && requestDto.getName() == null){
             throw new CustomException(ErrorCode.LACK_OF_REQUEST);
         }
 
@@ -97,9 +98,11 @@ public class ScheduleServiceImpl implements ScheduleService{
         return scheduleRepository.findScheduleByIdorElseThrow(id).toResponseDto();
     }
 
+    //레벨 2 단건 삭제 구현
     @Override
     public void deleteSchedule(Long id, DeleteScheduleRequestDto requestDto) {
-        String password = scheduleRepository.findScheduleByIdorElseThrow(id).getPassword();
+
+        String password = scheduleRepository.findPasswordByIdorElseThrow(id);
         String inputPassword = requestDto.getPassword();
 
         if(!password.equals(inputPassword)){

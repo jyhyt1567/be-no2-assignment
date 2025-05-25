@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 public class UpdateScheduleRequestDto {
 
-    @NotBlank(message = "할 일을 작성해 주세요.")
+    //레벨 6 null 체크 및 특정 패턴에 대한 검증 수행 구현
     @Length(max=200, message = "할 일은 최대 200자 까지 가능합니다.")
     private String todo;
     private String name;

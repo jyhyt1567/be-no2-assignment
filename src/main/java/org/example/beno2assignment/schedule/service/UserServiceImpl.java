@@ -6,6 +6,7 @@ import org.example.beno2assignment.schedule.entity.User;
 import org.example.beno2assignment.schedule.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+//레벨 3 구현
 @Service
 public class UserServiceImpl implements UserService {
 

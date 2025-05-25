@@ -2,9 +2,9 @@ Use schedule;
 
 DROP TABLE IF EXISTS schedule;
 
-DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS users;
 
-CREATE TABLE user
+CREATE TABLE users
 (
     uid BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
@@ -19,11 +19,10 @@ CREATE TABLE schedule
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     todo TEXT,
-    password VARCHAR(100),
     createAt datetime,
     modifiedAt datetime,
     uid BIGINT,
-    FOREIGN KEY (uid) references user(uid)
+    FOREIGN KEY (uid) references users(uid)
 );
 
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+//레벨 5 예외 발생 처리 구현
 @RestControllerAdvice
 public class CustomExceptionHandler {
 

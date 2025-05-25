@@ -6,6 +6,7 @@ import org.example.beno2assignment.schedule.dto.UserResponseDto;
 
 import java.time.LocalDateTime;
 
+//레벨 3 구현
 @Getter
 @AllArgsConstructor
 public class User {

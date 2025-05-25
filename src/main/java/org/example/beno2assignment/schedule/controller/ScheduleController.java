@@ -19,11 +19,14 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
+
+    //레벨 1 스케줄 생성 구현
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody @Valid CreateScheduleRequestDto requestDto){
         return new ResponseEntity<>(scheduleService.createSchedule(requestDto), HttpStatus.CREATED);
     }
 
+    //레벨 1 전체 조회 구현
     @GetMapping
     public ResponseEntity<List<ScheduleResponseDto>> findSchedulesByConditions(@RequestParam(required = false) String name,
                                                                                @RequestParam(required = false) LocalDate modifiedAt,
@@ -34,22 +37,25 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.findSchedulesByConditions(requestDto), HttpStatus.OK);
     }
 
+    //레벨 1 단건 조회 구현
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id){
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
 
+    //레벨 2 단건 수정 구현
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id,
                                                               @RequestBody @Valid UpdateScheduleRequestDto requestDto){
         return new ResponseEntity<>(scheduleService.updateSchedule(id, requestDto), HttpStatus.OK);
     }
 
+    //레벨 2 단건 삭제 구현
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long id,
                                                @RequestBody @Valid DeleteScheduleRequestDto requestDto){
         scheduleService.deleteSchedule(id, requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

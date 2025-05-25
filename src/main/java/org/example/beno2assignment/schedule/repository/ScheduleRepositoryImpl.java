@@ -31,6 +31,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+
+    //레벨 1 스케줄 생성 구현
     @Override
     public Schedule createSchedule(Schedule schedule) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
@@ -41,16 +43,17 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
 
         parameters.put("name", schedule.getName());
         parameters.put("todo", schedule.getTodo());
-        parameters.put("password",schedule.getPassword());
         parameters.put("createAt", currentTime);
         parameters.put("modifiedAt", currentTime);
         parameters.put("uid", schedule.getUid());
 
         Number id = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new Schedule(id.longValue(), schedule.getTodo(), schedule.getName(),schedule.getPassword(), currentTime, currentTime, schedule.getUid());
+        return new Schedule(id.longValue(), schedule.getTodo(), schedule.getName(), currentTime, currentTime, schedule.getUid());
     }
 
+
+    //레벨 1 전체 조회 구현
     @Override
     public List<Schedule> findSchedulesByConditions(ReadScheduleRequestDto requestDto) {
 
@@ -67,19 +70,14 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
             conds.add(requestDto.getModifiedAt().atTime(LocalTime.MAX));
         }
         if(requestDto.getUid() != null){
-            if(requestDto.getUid() == 0){
-                sql.append(" and uid is null");
-            }
-            else{
-                sql.append(" and uid = ?");
-                conds.add(requestDto.getUid());
-            }
+            sql.append(" and uid = ?");
+            conds.add(requestDto.getUid());
         }
 
         sql.append(" order by modifiedAt desc");
 
+        //레벨 4 페이지네이션 구현
         sql.append(" limit ?, ?");
-
         conds.add((requestDto.getP()-1)*requestDto.getPSize());
         conds.add(requestDto.getPSize());
 
@@ -87,6 +85,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
 
     }
 
+    //레벨 2 단건 조회 구현
     @Override
     public Schedule findScheduleByIdorElseThrow(Long id) {
         List<Schedule> res = jdbcTemplate.query("select * from schedule where id = ?", scheduleRowMapper(), id);
@@ -97,6 +96,18 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
 
     }
 
+    //레벨 3 구현
+    @Override
+    public String findPasswordByIdorElseThrow(Long id) {
+        List<String> res = jdbcTemplate.query("select users.password from schedule join users on schedule.uid = users.uid where schedule.id = ?", (rs, rowNum) -> rs.getString("password"), id);
+        return res
+                .stream()
+                .findAny()
+                .orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND));
+
+    }
+
+    //레벨 2 단건 수정 구현
     @Override
     public int updateSchedule(Long id, UpdateScheduleRequestDto requestDto) {
 
@@ -129,6 +140,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         return jdbcTemplate.update(sql.toString(), conds.toArray());
     }
 
+    //레벨 2 단건 삭제 구현
     @Override
     public int deleteSchedule(Long id) {
         return jdbcTemplate.update("delete from schedule where id = ?", id);
@@ -142,7 +154,6 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
                         rs.getLong("id"),
                         rs.getString("todo"),
                         rs.getString("name"),
-                        rs.getString("password"),
                         rs.getObject("createAt", LocalDateTime.class),
                         rs.getObject("modifiedAt", LocalDateTime.class),
                         rs.getObject("uid", Long.class)
